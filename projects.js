@@ -3,12 +3,12 @@ const bjtAmp = {
     date: 'Electronics II · FAU',
     tags: [{ label: 'Analog', cls: 'analog' }],
     specs: [
-        { key: 'Voltage Gain',   val: '90× (linear)' },
+        { key: 'Voltage Gain', val: '90× (linear)' },
         { key: 'Load Impedance', val: '8 Ω' },
-        { key: 'Bandwidth',      val: '30 kHz' },
-        { key: 'Input Stage',    val: 'Cascode Differential' },
-        { key: 'Biasing',        val: 'Wilson Current Mirror' },
-        { key: 'Feedback',       val: 'Voltage feedback' },
+        { key: 'Bandwidth', val: '30 kHz' },
+        { key: 'Input Stage', val: 'Cascode Differential' },
+        { key: 'Biasing', val: 'Wilson Current Mirror' },
+        { key: 'Feedback', val: 'Voltage feedback' },
     ],
     body: `
         <p>This was a class project for Electronics II, but I wanted to actually understand every stage rather than just get it working. Four BJT stages, designed from scratch.</p>
@@ -29,11 +29,11 @@ const colpitts = {
     date: 'High Frequency Amplifier Design · FAU',
     tags: [{ label: 'RF / HF', cls: 'rf' }],
     specs: [
-        { key: 'Topology',  val: 'Colpitts (BJT)' },
-        { key: 'Type',      val: 'LC Tank Oscillator' },
-        { key: 'Analysis',  val: 'Startup + Small-signal' },
+        { key: 'Topology', val: 'Colpitts (BJT)' },
+        { key: 'Type', val: 'LC Tank Oscillator' },
+        { key: 'Analysis', val: 'Startup + Small-signal' },
         { key: 'Condition', val: 'Barkhausen Criterion' },
-        { key: 'Output',    val: 'Clean Sine Wave' },
+        { key: 'Output', val: 'Clean Sine Wave' },
     ],
     body: `
         <p>The Colpitts oscillator topology chosen here uses a common-emitter configuration. The easiest way to identify the type of oscillator at a glance is by examining the feedback network. Colpitts oscillators consist of a single inductor and two capacitors, which together form a π network.</p>
@@ -63,11 +63,11 @@ const heartPcb = {
     tags: [{ label: 'PCB', cls: 'pcb' }],
     specs: [
         { key: 'Control IC', val: '555 Timer (astable)' },
-        { key: 'Output',     val: 'Variable-rate LED blink' },
-        { key: 'Timing',     val: 'RC network' },
-        { key: 'EDA Tool',   val: 'Altium Designer' },
-        { key: 'Shape',      val: 'Custom heart outline' },
-        { key: 'Status',     val: 'Fabricated & assembled' },
+        { key: 'Output', val: 'Variable-rate LED blink' },
+        { key: 'Timing', val: 'RC network' },
+        { key: 'EDA Tool', val: 'Altium Designer' },
+        { key: 'Shape', val: 'Custom heart outline' },
+        { key: 'Status', val: 'Fabricated & assembled' },
     ],
     body: `
         <p>When I first started talking to my future wife, and later my girlfriend, I knew I wanted to make her feel loved and cherished in a way I had never been able to express before. I wanted to create a gift that combined my love for her with one of my greatest passions.</p>
@@ -92,19 +92,19 @@ const amTransmitter = {
     date: '',
     tags: [{ label: 'RF / HF', cls: 'rf' }],
     specs: [
-        { key: 'Carrier Frequency',  val: '1.07 MHz' },
-        { key: 'Message Frequency',  val: '41 kHz' },
+        { key: 'Carrier Frequency', val: '1.07 MHz' },
+        { key: 'Message Frequency', val: '41 kHz' },
         { key: 'Carrier Oscillator', val: 'Cross-coupled LC (2N2222)' },
         { key: 'Message Oscillator', val: 'Cross-coupled LC (2N2222)' },
-        { key: 'Mixer Topology',     val: 'Gilbert Cell (DBSC)' },
-        { key: 'Output',             val: 'DSB-SC modulated signal' },
-        { key: 'Simulation',         val: 'PSpice' },
+        { key: 'Mixer Topology', val: 'Gilbert Cell (DBSC)' },
+        { key: 'Output', val: 'DSB-SC modulated signal' },
+        { key: 'Simulation', val: 'PSpice' },
     ],
     body: `
         <p>After taking a course on high-frequency amplifiers and learning about the world of oscillators and mixers, I have been obsessed with learning how they work. This project was a way to combine several of my passions into one.</p>
         <h4>The Oscillators</h4>
         <p>When dealing with oscillator topologies, it is important to distinguish between them. The cross-coupled LC oscillator is one topology that particularly fascinates me. A cross-coupled LC oscillator is a type of -gm oscillator, which means that the circuit oscillates due to the negative resistance of the transistor.</p>
-        <p>This differs from other oscillators, such as the Colpitts, Hartley, and Clapp oscillators, which satisfy the Barkhausen oscillation criterion.</p>
+        <p>Just like the Colpitts, Hartley, and Clapp oscillators, cross-coupled oscillators satisfy the Barkhausen criterion. However, while these classical designs rely on a single amplifier stage and a capacitive voltage divider to provide feedback, cross-coupled oscillators sustain oscillation by alternately driving current through the LC tank using a pair of mutually coupled active devices. This is accomplished through the shared tail current of the two transistors.</p>
         <p>The main advantage of a cross-coupled LC oscillator is the reduction of noise due to its differential outputs. Noise affects all circuits and, interestingly, can often be heard in AM radio. Noise is a very important factor when designing high-frequency amplifiers and oscillators.</p>
         <p>Oscillators exhibit a very specific kind of noise called phase noise. Phase noise describes the non-ideal behavior of oscillators by explaining how the output sine wave is more realistically a sine wave with small phase fluctuations. These phase shifts occur due to noise injected into the oscillator from resistive components.</p>
         <p>The oscillation frequency is set by the LC parallel combination:</p>
@@ -189,10 +189,10 @@ const fmTransmitter = {
     date: 'In Development',
     tags: [{ label: 'RF / HF', cls: 'rf' }, { label: 'In Progress', cls: 'wip' }],
     specs: [
-        { key: 'Stages',    val: 'Message Oscillator → Buffer → VCO → Power Amplifier' },
+        { key: 'Stages', val: 'Message Oscillator → Buffer → VCO → Power Amplifier' },
         { key: 'Frequency', val: '111k – 5MHz' },
-        { key: 'EDA Tool',  val: 'ADS' },
-        { key: 'Status',    val: 'In progress' },
+        { key: 'EDA Tool', val: 'ADS' },
+        { key: 'Status', val: 'In progress' },
     ],
     body: `
         <p>This one is still in progress. The goal is a full FM transmitter chain including a message oscillator, buffer, voltage-controlled oscillator, and power amplifier.</p>
@@ -201,9 +201,9 @@ const fmTransmitter = {
 };
 
 const projects = {
-    'bjt-amp':        bjtAmp,
-    'colpitts':       colpitts,
-    'heart-pcb':      heartPcb,
+    'bjt-amp': bjtAmp,
+    'colpitts': colpitts,
+    'heart-pcb': heartPcb,
     'am-transmitter': amTransmitter,
     'fm-transmitter': fmTransmitter,
 };
