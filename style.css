@@ -1340,12 +1340,6 @@ footer {
     align-items: center;
 }
 
-.tt-used {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: var(--dim);
-}
-
 .tt-more {
     font-family: var(--mono);
     font-size: 0.62rem;
