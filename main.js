@@ -9,46 +9,41 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-const backdrop   = document.getElementById('modal-backdrop');
-const modalTitle = document.getElementById('modal-title');
-const modalDate  = document.getElementById('modal-date');
-const modalTags  = document.getElementById('modal-tags');
-const modalBody  = document.getElementById('modal-body');
+const lightbox = document.getElementById('media-lightbox');
+const lightboxInner = document.getElementById('lightbox-inner');
+const lightboxClose = document.getElementById('lightbox-close');
 
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', () => {
-        const id = card.dataset.project;
-        const p  = projects[id];
-        if (!p) return;
-
-        modalTitle.textContent = p.title;
-        modalDate.textContent  = p.date;
-        modalTags.innerHTML    = p.tags.map(t =>
-            `<span class="card-tag ${t.cls}">${t.label}</span>`
-        ).join('');
-
-        let specsHtml = '';
-        if (p.specs) {
-            specsHtml = `<div class="modal-specs">${p.specs.map(s =>
-                `<div class="spec-row">
-                    <span class="spec-key">${s.key}</span>
-                    <span class="spec-val">${s.val}</span>
-                </div>`
-            ).join('')}</div>`;
+function openLightbox(content, caption) {
+    lightboxInner.replaceChildren(lightboxClose, content);
+    if (caption) {
+        const cap = document.createElement('p');
+        cap.className = 'lightbox-caption';
+        cap.textContent = caption;
+        lightboxInner.appendChild(cap);
+        }
+lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
         }
 
-        modalBody.innerHTML = specsHtml + p.body;
-        backdrop.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        if (window.MathJax) MathJax.typesetPromise([modalBody]);
-    });
-});
-
-document.getElementById('modal-close').addEventListener('click', closeModal);
-backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-function closeModal() {
-    backdrop.classList.remove('open');
+function closeLightbox() {
+    lightbox.classList.remove('open');
     document.body.style.overflow = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+
+function initMediaLightbox(container) {
+    container.querySelectorAll('img:not(.no-zoom)').forEach(img => {
+        img.style.display = 'block';
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+            const clone = document.createElement('img');
+            clone.src = img.src;
+            clone.alt = img.alt;
+            clone.style.cssText = 'max-width:100%;max-height:85vh;border-radius:4px;border:1px solid var(--border);object-fit:contain;display:block;';
+            openLightbox(clone, img.alt || null);
+        });
+    });
 }

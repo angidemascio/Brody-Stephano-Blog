@@ -71,30 +71,34 @@
             </div>
             <div class="projects-grid">
 
-                <article class="project-card featured fade-in" data-project="am-transmitter">
+                <a href="projects/fm-transmitter.html" class="project-card featured new-project fade-in">
                     <div class="card-img">
                         <span class="card-tag rf">RF / HF</span>
-                        <img src="assets/images/gilbert_cell_breadboard.jpg" alt="Gilbert Cell Breadboard">
+                        <span class="new-badge">★ New</span>
+                        <img src="assets/images/fm_transmitter_oscilloscope.jpg"
+                            alt="Photo of the breadboarded FM transmitter connected to an oscilloscope">
                     </div>
                     <div class="card-body">
                         <p class="card-meta">RF Design</p>
-                        <h3 class="card-title">AM Transmitter (DSB-SC) Gilbert Cell Modulator</h3>
-                        <p class="card-summary">A full AM modulation chain built from discrete BJTs. Two cross-coupled
-                            LC oscillators generate the carrier (1.07 MHz) and message (41 kHz) signals, which are then
-                            multiplied together by a Gilbert cell mixer to produce a DSB-SC output.</p>
+                        <h3 class="card-title">FM Transmitter</h3>
+                        <p class="card-summary">A complete FM transmission chain built from discrete BJTs.
+                            Varactor-tuned cross-coupled VCO modulates frequency, a cascoded Class C power amplifier
+                            drives the output, and a double L-network matches 500 Ω to 50 Ω across a 200 kHz tuning
+                            range centered at 5.5 MHz.</p>
                         <div class="card-footer">
                             <div class="card-chips">
-                                <span class="chip">Gilbert Cell</span>
-                                <span class="chip">LC Oscillator</span>
-                                <span class="chip">DSB-SC</span>
-                                <span class="chip">PSpice</span>
+                                <span class="chip">VCO</span>
+                                <span class="chip">Varactor</span>
+                                <span class="chip">Class C PA</span>
+                                <span class="chip">Impedance Matching</span>
+                                <span class="chip">ADS</span>
                             </div>
                             <span class="card-link">Read more →</span>
                         </div>
                     </div>
-                </article>
+                </a>
 
-                <article class="project-card side fade-in" data-project="colpitts">
+                <a href="projects/colpitts.html" class="project-card side fade-in">
                     <div class="card-img">
                         <span class="card-tag rf">RF / HF</span>
                         <img src="assets/images/colpitts_breadboard.jpg" alt="Colpitts Oscillator Breadboard">
@@ -103,8 +107,8 @@
                         <p class="card-meta">RF Design · High Frequency Amplifier Design</p>
                         <h3 class="card-title">Colpitts LC Oscillator</h3>
                         <p class="card-summary">A BJT Colpitts oscillator designed and analyzed from scratch. Worked
-                            through the startup conditions and small-signal math, verified the Barkhausen criterion was
-                            satisfied, then tuned the bias network until the output was actually clean.</p>
+                            through the startup conditions and small-signal math, verified the Barkhausen criterion
+                            was satisfied, then tuned the bias network until the output was actually clean.</p>
                         <div class="card-footer">
                             <div class="card-chips">
                                 <span class="chip">LC Tank</span>
@@ -114,9 +118,9 @@
                             <span class="card-link">Read more →</span>
                         </div>
                     </div>
-                </article>
+                </a>
 
-                <article class="project-card half fade-in" data-project="bjt-amp">
+                <a href="projects/bjt-amp.html" class="project-card side fade-in" data-project="bjt-amp">
                     <div class="card-img">
                         <span class="card-tag analog">Analog</span>
                         <img src="assets/images/audio_amp_bb.png" alt="Breadboard prototype of the BJT audio amplifier">
@@ -124,9 +128,9 @@
                     <div class="card-body">
                         <p class="card-meta">Analog Design · Electronics II</p>
                         <h3 class="card-title">Four-Stage BJT Audio Amplifier</h3>
-                        <p class="card-summary">Four stages, all BJTs. A cascode differential pair handles the input, a
-                            Wilson current mirror keeps the biasing stable, and a feedback-wrapped power stage drives
-                            the 8 Ω load. Got it to 90× linear gain across 30 kHz of bandwidth.</p>
+                        <p class="card-summary">Four stages, all BJTs. A cascode differential pair handles the
+                            input, a Wilson current mirror keeps the biasing stable, and a feedback-wrapped power stage
+                            drives the 8 Ω load. Got it to 90× linear gain across 30 kHz of bandwidth.</p>
                         <div class="card-footer">
                             <div class="card-chips">
                                 <span class="chip">BJT</span>
@@ -137,9 +141,32 @@
                             <span class="card-link">Read more →</span>
                         </div>
                     </div>
-                </article>
+                </a>
 
-                <article class="project-card half fade-in" data-project="heart-pcb">
+                <a href="projects/am-transmitter.html" class="project-card featured fade-in">
+                    <div class="card-img">
+                        <span class="card-tag rf">RF / HF</span>
+                        <img src="assets/images/gilbert_cell_breadboard.jpg" alt="Gilbert Cell Breadboard">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-meta">RF Design</p>
+                        <h3 class="card-title">AM Transmitter (DSB-SC) Gilbert Cell Modulator</h3>
+                        <p class="card-summary">A full AM modulation chain built from discrete BJTs. Two
+                            cross-coupled LC oscillators generate the carrier (1.07 MHz) and message (41 kHz) signals,
+                            which are then multiplied together by a Gilbert cell mixer to produce a DSB-SC output.</p>
+                        <div class="card-footer">
+                            <div class="card-chips">
+                                <span class="chip">Gilbert Cell</span>
+                                <span class="chip">LC Oscillator</span>
+                                <span class="chip">DSB-SC</span>
+                                <span class="chip">PSpice</span>
+                            </div>
+                            <span class="card-link">Read more →</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="projects/heart-pcb.html" class="project-card half fade-in" data-project="heart-pcb">
                     <div class="card-img">
                         <span class="card-tag pcb">PCB</span>
                         <img src="assets/images/brody_working.jpg" alt="Brody working on the Heart-Shaped PCB">
@@ -147,9 +174,9 @@
                     <div class="card-body">
                         <p class="card-meta">PCB Design · Personal Project</p>
                         <h3 class="card-title">Heart-Shaped PCB</h3>
-                        <p class="card-summary">I made this one for my wife. A heart-shaped PCB with a 555 timer circuit
-                            that pulses LEDs at a variable rate controlled by an RC network. Designed the schematic and
-                            layout in Altium and had it fabricated.</p>
+                        <p class="card-summary">I made this one for my wife. A heart-shaped PCB with a 555 timer
+                            circuit that pulses LEDs at a variable rate controlled by an RC network. Designed the
+                            schematic and layout in Altium and had it fabricated.</p>
                         <div class="card-footer">
                             <div class="card-chips">
                                 <span class="chip">555 Timer</span>
@@ -159,39 +186,7 @@
                             <span class="card-link">Read more →</span>
                         </div>
                     </div>
-                </article>
-
-                <article class="project-card featured fade-in" data-project="fm-transmitter">
-                    <div class="card-img placeholder">
-                        <span class="card-tag wip">In Progress</span>
-                        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 60 H40" stroke="#ffe066" stroke-width="1.5" />
-                            <rect x="40" y="45" width="30" height="30" stroke="#ffe066" stroke-width="1.5" />
-                            <path d="M70 60 H100" stroke="#ffe066" stroke-width="1.5" />
-                            <rect x="100" y="45" width="30" height="30" stroke="#ffe066" stroke-width="1.5" />
-                            <path d="M130 60 H160" stroke="#ffe066" stroke-width="1.5" />
-                            <rect x="160" y="45" width="30" height="30" stroke="#ffe066" stroke-width="1.5" />
-                            <text x="48" y="63" fill="#ffe066" font-size="7" font-family="monospace">LNA</text>
-                            <text x="105" y="63" fill="#ffe066" font-size="7" font-family="monospace">IF</text>
-                            <text x="163" y="63" fill="#ffe066" font-size="7" font-family="monospace">DEM</text>
-                            <path d="M5 30 Q10 20 15 30 Q20 40 25 30" stroke="#ffe066" stroke-width="1" opacity="0.5" />
-                            <path d="M3 25 Q10 10 17 25 Q24 40 31 25" stroke="#ffe066" stroke-width="1" opacity="0.3" />
-                        </svg>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-meta">RF · In Development</p>
-                        <h3 class="card-title">FM Transmitter</h3>
-                        <p class="card-summary">Working on a full FM transmitter chain with message oscillator and
-                            voltage-controlled oscillator.</p>
-                        <div class="card-footer">
-                            <div class="card-chips">
-                                <span class="chip">RF Front-End</span>
-                                <span class="chip">FM Modulator</span>
-                            </div>
-                            <span class="card-link">In progress →</span>
-                        </div>
-                    </div>
-                </article>
+                </a>
 
             </div>
         </div>

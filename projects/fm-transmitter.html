@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading…</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <script>MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }, options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <nav>
+        <a class="nav-logo" href="#">Brody Stephano<span> // engineering lab</span></a>
+        <ul class="nav-links">
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#concepts">Concepts</a></li>
+            <li><a href="mailto:bstephano2022@fau.edu">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="project-page-wrap">
+        <a class="back-link" href="../index.html#projects">← All Projects</a>
+
+        <div class="proj-header">
+            <div class="proj-tag-row" id="proj-tags"></div>
+            <h1 class="proj-title" id="proj-title"></h1>
+            <p class="proj-date" id="proj-date"></p>
+        </div>
+
+        <div class="proj-specs" id="proj-specs"></div>
+        <div class="proj-body" id="proj-body"></div>
+    </main>
+
+    <div class="concept-tooltip" id="concept-tooltip">
+        <div class="tt-inner">
+            <div class="tt-top">
+                <span class="tt-name" id="tt-name"></span>
+            </div>
+            <div class="tt-body" id="tt-body"></div>
+            <div class="tt-footer">
+                <span class="tt-used" id="tt-used"></span>
+                <span class="tt-more" id="tt-more">Full entry →</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="concept-backdrop" id="concept-backdrop">
+        <div class="concept-modal">
+            <div class="cm-header">
+                <div>
+                    <h2 class="cm-title" id="cm-title"></h2>
+                </div>
+                <button class="cm-close" id="cm-close">✕</button>
+            </div>
+            <div class="cm-body">
+                <p id="cm-content"></p>
+                <div class="cm-divider"></div>
+                <p class="cm-used-label">Used in</p>
+                <div class="cm-projects" id="cm-projects"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="media-lightbox" id="media-lightbox">
+        <div class="lightbox-inner" id="lightbox-inner">
+            <button class="lightbox-close" id="lightbox-close">✕</button>
+        </div>
+    </div>
+
+    <script src="../projects.js"></script>
+    <script src="../concepts.js"></script>
+    <script src="../main.js"></script>
+    <script src="project-page.js"></script>
+    <script>renderProject('fm-transmitter');</script>
+</body>
+
+</html>
