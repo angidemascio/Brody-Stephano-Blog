@@ -186,17 +186,100 @@ const amTransmitter = {
 
 const fmTransmitter = {
     title: 'FM Transmitter',
-    date: 'In Development',
-    tags: [{ label: 'RF / HF', cls: 'rf' }, { label: 'In Progress', cls: 'wip' }],
+    date: '',
+    tags: [{ label: 'RF / HF', cls: 'rf' }],
     specs: [
         { key: 'Stages', val: 'Message Oscillator → Buffer → VCO → Power Amplifier' },
-        { key: 'Frequency', val: '111k – 5MHz' },
+        { key: 'Frequency', val: '5.4 – 5.6 MHz' },
         { key: 'EDA Tool', val: 'ADS' },
-        { key: 'Status', val: 'In progress' },
+        { key: 'Power', val: '140 mW in 50 Ω Load' },
     ],
     body: `
-        <p>This one is still in progress. The goal is a full FM transmitter chain including a message oscillator, buffer, voltage-controlled oscillator, and power amplifier.</p>
-        <p><em>Check back once it's complete.</em></p>
+        <h4>Voltage-Controlled Oscillator Theory</h4>
+        <p>Voltage-controlled oscillators (VCOs) form the core of FM transmitters, producing the frequency variations that carry the information in the message signal. VCOs can be realized in many different configurations, though one of the most common is the cross-coupled oscillator, which is why it is used in this design.</p>
+        <p>The main advantage of using a cross-coupled oscillator is its reduced <span class="concept-term" data-id="phase-noise">phase noise</span>, achieved through minimal component usage and the absence of large biasing resistors. It is important to note that, due to the components available, this design uses BJTs.</p>
+        <p>BJTs require a non-zero base current, which is established through the use of biasing resistors. These resistors introduce <span class="concept-term" data-id="thermal-noise">thermal noise</span>, while the base current contributes shot noise, both of which degrade overall signal quality.</p>
+        <p>Thermal noise is more straightforward than shot noise, which will be explained shortly. Thermal noise describes the random motion of electrons within a conductor. It is given by:</p>
+        \\[V_n = \\sqrt{4 k T R \\Delta f}\\]
+        <p>where \\(T\\) is the temperature in Kelvin, \\(k\\) is the Boltzmann constant (\\(1.38 \\times 10^{-23}\\,\\text{J/K}\\)), \\(R\\) is the resistance in ohms, and \\(\\Delta f\\) is the bandwidth.</p>
+        <p>Because this thermal noise voltage appears at the input, it will also be amplified by the circuit, further impacting overall noise performance.</p>
+ 
+        <h4>VCO & Varactor Theory</h4>
+        <p>A voltage-controlled oscillator (VCO) operates exactly as its name suggests: it produces an output frequency that is proportional to an input control voltage. This behavior is typically realized using varactor diodes or MOS-based implementations. For the sake of brevity, this discussion focuses on the varactor-based approach.</p>
+        <p>Varactor diodes use the same PN junction found in standard diodes, with the key distinction that they are designed to provide a larger and more controllable junction capacitance. This capacitance is determined by the width of the depletion region, which is why varactors are operated strictly in reverse bias.</p>
+        <p>The capacitance of a varactor is a nonlinear inverse function of its reverse bias voltage. As a result, if a sinusoidal voltage with a DC offset is applied across the varactor, assuming the cathode is at a higher potential than the anode, the capacitance will vary with the input signal. The DC offset sets the center frequency, while the AC component produces a time-varying capacitance.</p>
+        <p>When the varactor is incorporated into the LC tank circuit, this varying capacitance directly modulates the oscillation frequency, allowing the VCO to perform frequency modulation with respect to the message signal.</p>
+        <p>To approximate the oscillation frequency without a full nonlinear analysis, we use:</p>
+        \\[F_{VCO} = \\frac{1}{2\\pi\\sqrt{L(C_{BJT} + C_{varactor} + C_{parasitic})}}\\]
+        <p>In this design, BJTs are used without a dedicated amplitude control network, causing them to operate deep in saturation. As a result, the transistors contribute a significant and nonlinear capacitance due to charge storage effects.</p>
+        <p>A first-principles calculation is difficult because transistor capacitances depend strongly on the operating point. However, using the approximation:</p>
+        \\[C \\approx \\frac{\\tau I_C}{V_T}\\]
+        <p>we estimate that the BJTs contribute on the order of 100 pF to the tank capacitance.</p>
+        <p>When the varactor is modulated, the transistor operating point is also perturbed, which changes the stored charge and therefore the effective capacitance. This means the total capacitance variation is larger than what would be predicted from the varactor alone.</p>
+        <p>At approximately 95 μA of collector current, each BJT contributes roughly 20–40 pF of diffusion capacitance. In the cross-coupled topology, this results in an effective contribution of approximately 100 pF at the tank nodes. Under modulation, an additional 5–10 pF variation occurs, which combines with the varactor's approximate 6 pF change to produce the observed frequency deviation.</p>
+        <p>Using this model, we estimate:</p>
+        \\[F_{VCO}\\big|_{1.5V} = \\frac{1}{2\\pi\\sqrt{L(100\\,\\text{pF} + 3 \\cdot 9\\,\\text{pF} + 135\\,\\text{pF})}} \\approx 5.4\\,\\text{MHz}\\]
+        \\[F_{VCO}\\big|_{4.5V} = \\frac{1}{2\\pi\\sqrt{L(100\\,\\text{pF} + 3 \\cdot 7\\,\\text{pF} + 123\\,\\text{pF})}} \\approx 5.6\\,\\text{MHz}\\]
+        <p>This yields a tuning range of approximately 200 kHz.</p>
+        <p>With the tuning range established, we can verify that the system produces a true FM signal. If the VCO exhibits a linear frequency response, the resulting spectrum should follow Bessel function coefficients. By comparing the measured spectral amplitudes to the expected coefficients, we can confirm proper FM behavior. To demonstrate this, the Bessel null method is used, which identifies modulation conditions where the carrier component is minimized. One such null occurs at a modulation index of approximately 5.5201.</p>
+        <img class="half-width" src="../assets/images/VCO.png" alt="Schematic of the cross-coupled BJT voltage-controlled oscillator with varactor tuning">
+
+        <h4>Colpitts Oscillator (Message Source)</h4>
+        <p>A Colpitts oscillator is used as the message source. The modulation index is defined as:</p>
+        \\[\\beta = \\frac{\\Delta f}{f_m}\\]
+        <p>where \\(\\beta\\) is the modulation index and \\(f_m\\) is the message frequency. To achieve the desired Bessel null:</p>
+        \\[f_m = \\frac{200\\,\\text{kHz}}{5.5201} \\approx 36\\,\\text{kHz}\\]
+        <p>Using \\(L = 1.5\\,\\text{mH}\\) and \\(C_1 = C_2 = 33\\,\\text{nF}\\), the oscillator is set to approximately 32 kHz. A slightly lower value is chosen to account for the fact that the practical tuning range is somewhat less than 200 kHz.</p>
+        <img class="half-width" src="../assets/images/ColpittsOscillator_32kHz.png" alt="Schematic of the 32 kHz Colpitts oscillator used as the message source">
+
+        <h4>Buffering and Modulation</h4>
+        <p>A common-collector (<span class="concept-term" data-id="emitter-follower">emitter follower</span>) stage is used to buffer the signal. The signal is capacitively coupled to reduce its amplitude, ensuring the transistor remains in the linear region. After buffering, a DC offset is applied to the message signal to enable proper modulation of the VCO. With a DC offset of approximately 6 V and a signal swing of about 3 V<sub>pp</sub>, the varactor operates safely within its limits.</p>
+        <p>Following the DC offset stage, two low-pass filters are introduced. These filters serve two purposes: they isolate the input signal from the fast-switching behavior of the varactor nodes, and they provide additional filtering of the message signal.</p>
+        <img class="half-width" src="../assets/images/ColpittsOscillator_Buffer_ChargePump.png" alt="Schematic of the emitter-follower buffer, DC offset network, and low-pass filters for the Colpitts oscillator output">
+
+        <h4>Final Result</h4>
+        <p>With the VCO properly modulated, the resulting spectrum exhibits the expected Bessel null, confirming that the system is producing a valid frequency-modulated signal. At this point, the system functions as a complete FM transmitter. The next step is to address power amplification, since a transmitter is only as useful as its ability to deliver power to a load.</p>
+        <h4>Power Amplifier Section</h4>
+        <p>Given that the expected output voltage of the cross-coupled VCO is approximately 500–800 mV<sub>pp</sub>, the signal must be amplified before transmission. Before selecting a power amplifier topology, each output is first buffered with its own equivalent stage. This ensures equal loading on both outputs, maintaining symmetry in the differential signal.</p>
+        <p>Since the goal is maximum power efficiency, a Class C amplifier is chosen. Amplifier classes are defined by the portion of the input signal cycle during which the transistor conducts. A Class A amplifier conducts for 360°, Class B for 180°, and Class C typically conducts for approximately 80–120°.</p>
+
+        <h4>Class C Amplifier</h4>
+        <p>In a Class C amplifier, the collector is connected to an LC tank circuit, which is frequency-selective. To properly drive the amplifier, the input signal must fall within the frequency range determined by the <span class="concept-term" data-id="q-factor">Q factor</span> of the tank.</p>
+        <p>The high efficiency of a Class C amplifier is achieved through the resonant tank. Since the transistor conducts for only a small portion of the input cycle, it injects current into the tank in short bursts. If the input frequency is sufficiently close to the tank's resonant frequency, as determined by the Q factor, this injected energy sustains oscillation in the tank circuit. This is the fundamental operating principle of the Class C amplifier.</p>
+        <p>To implement this topology, we must consider that the VCO output of approximately 800 mV<sub>pp</sub> is insufficient to fully switch the transistor. To address this without adding an additional gain stage, a DC offset is introduced. This leads to the use of a cascoded Class C configuration.</p>
+        <p>The <span class="concept-term" data-id="cascode">cascode configuration</span> reduces the Miller effect by stacking a common-emitter stage beneath a common-base stage. The input signal is applied to the base of the lower transistor, whose collector is connected to the emitter of the upper transistor. This prevents large voltage swings at the collector of the input device, reducing the effective base-collector capacitance and extending bandwidth.</p>
+        <p>Using the bias network \\(R_{b1} = 1.8\\,\\text{k}\\Omega\\), \\(R_{b2} = 470\\,\\Omega\\), and \\(R_{b3} = 220\\,\\Omega\\), a resistive divider sets the base voltage of the lower transistor to approximately 0.8 V DC, with an input swing of about 0.5 V<sub>pp</sub>. The upper transistor's base is set to approximately 2.5 V DC. With this biasing, the transistor conducts for slightly more than 140° of the input cycle. While this is still technically Class C operation, it is near the boundary of Class AB/B.</p>
+
+        <h4>Q Factor Design</h4>
+        <p>The Q factor describes the frequency selectivity of a resonant network and is defined as:</p>
+        \\[Q = \\frac{f_0}{BW}\\]
+        <p>where \(f_0\) is the center frequency and \(BW\) is the bandwidth. Given that the VCO operates from 5.4 MHz to 5.6 MHz, with a center frequency of approximately 5.5 MHz, the tank should be designed accordingly. However, to avoid excessive envelope variation in the output, a lower Q is desirable. Rather than maximizing Q (which would be around 30), we select a value of approximately 12 to achieve a flatter response. The goal is to deliver power into a 500 Ω load.</p>
+        <p>For a parallel RLC network:</p>
+        \\[Q = R\\sqrt{\\frac{C}{L}}\\]
+        <p>Rearranging:</p>
+        \\[L = \\frac{R}{2\\pi f_0 Q} \\approx 1.2\\,\\mu\\text{H}\\]
+        \\[C = \\frac{1}{(2\\pi f_0)^2 L} \\approx 680\\,\\text{pF}\\]
+        <img class="half-width" src="../assets/images/ClassC_Power_Amplifiers.png" alt="Schematic of the Class C power amplifier">
+        <img class="half-width" src="../assets/images/ClassC_Output.png" alt="Simulation output from the Class C power amplifier">
+
+        <h4>Impedance Matching</h4>
+        <p>To further improve power transfer and frequency response, an impedance matching network is used to transform the 500 Ω load to 50 Ω, which is typical for antennas. While impedance matching is often implemented using transmission lines at higher frequencies, it can also be achieved using discrete inductors and capacitors.</p>
+        <p>The input impedance of the matching network is given by:</p>
+        \\[Z_{in} = \\left(\\frac{-j}{\\omega C_1}\\right) \\parallel \\left(j\\omega L_1 + \\left(\\frac{-j}{\\omega C_2} \\parallel (50 + j\\omega L_2)\\right)\\right)\\]
+        <p>This double matching network provides a flatter frequency response across the operating range of 5.4 MHz to 5.6 MHz. Using two matching sections reduces sensitivity to frequency variation compared to a single-stage network. Smith chart analysis confirms that the network effectively transforms 500 Ω to 50 Ω across the desired frequency range.</p>
+        <img class="half-width" src="../assets/images/FM_Transmitter_OutputPower_FinalGraphs.png" alt="Graphs showing output power of the FM transmitter">
+        <div class="img-row">
+            <img src="../assets/images/ImpedanceMatching_DoubleL_5.4MHz.png" alt="Smith chart of the double-L impedance matching network at 5.4 MHz">
+            <img src="../assets/images/ImpedanceMatching_DoubleL_5.5MHz.png" alt="Smith chart of the double-L impedance matching network at 5.5 MHz">
+            <img src="../assets/images/ImpedanceMatching_DoubleL_5.6MHz.png" alt="Smith chart of the double-L impedance matching network at 5.6 MHz">
+        </div>
+        <p>It is evident from the oscilloscope images that the matching network has not been implemented, as indicated by the observed amplitude variations. A matching network is preferable to reduce these output ripples.</p>
+        <img class="half-width" src="../assets/images/fm_transmitter_breadboard.jpg" alt="Photo of the FM transmitter assembled on a breadboard">
+        <img class="half-width" src="../assets/images/fm_transmitter_oscilloscope.jpg" alt="Photo of the breadboarded FM transmitter connected to an oscilloscope">
+        <img class="half-width" src="../assets/images/fm_transmitter_oscilloscope_view.jpg" alt="Oscilloscope display showing the FM transmitter output signal">
+        <video controls>
+            <source src="../assets/fm_transmitter_video.mov" type="video/mp4">
+        </video>
     `
 };
 
