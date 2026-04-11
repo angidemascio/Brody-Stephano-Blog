@@ -31,6 +31,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#education">Education</a></li>
+            <li><a href="#concepts">Concepts</a></li>
             <li><a href="mailto:bstephano2022@fau.edu">Contact</a></li>
         </ul>
     </nav>
@@ -328,6 +329,39 @@
         </div>
     </section>
 
+    <section id="concepts">
+        <div class="section-wrap">
+
+            <div class="section-header fade-in concepts-fade">
+                <span class="section-num">05</span>
+                <h2 class="section-title">Concepts</h2>
+                <div class="section-rule"></div>
+            </div>
+
+            <p class="section-sub concepts-fade">
+                Definitions of the core concepts used throughout these projects. Tap or hover highlighted terms to view
+                quick definitions, or browse them here.
+            </p>
+
+            <div class="concepts-toolbar concepts-fade">
+                <div class="search-wrap">
+                    <svg class="search-icon" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <circle cx="5.5" cy="5.5" r="4" stroke="#6a8090" stroke-width="1.2" />
+                        <path d="M9 9l2.5 2.5" stroke="#6a8090" stroke-width="1.2" stroke-linecap="round" />
+                    </svg>
+                    <input id="concept-search" type="text" placeholder="Search concepts…">
+                </div>
+            </div>
+
+            <div class="concepts-list" id="concepts-list"></div>
+            <div class="concepts-show-more" id="concepts-show-more">
+                <button id="concepts-toggle">Show more ↓</button>
+            </div>
+            <p class="no-results" id="no-results">No matching concepts.</p>
+
+        </div>
+    </section>
+
     <footer>
         <span class="footer-name">© 2026 Brody Stephano</span>
         <div class="footer-contact">
@@ -350,8 +384,42 @@
         </div>
     </div>
 
+    <div class="concept-tooltip" id="concept-tooltip">
+        <div class="tt-inner">
+            <div class="tt-top">
+                <span class="tt-name" id="tt-name"></span>
+            </div>
+            <div class="tt-body" id="tt-body"></div>
+            <div class="tt-footer">
+                <span class="tt-used" id="tt-used"></span>
+                <span class="tt-more" id="tt-more">Full entry →</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="concept-backdrop" id="concept-backdrop">
+        <div class="concept-modal">
+            <div class="cm-header">
+                <div>
+                    <h2 class="cm-title" id="cm-title"></h2>
+                </div>
+                <button class="cm-close" id="cm-close">✕</button>
+            </div>
+            <div class="cm-body">
+                <p id="cm-content"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="media-lightbox" id="media-lightbox">
+        <div class="lightbox-inner" id="lightbox-inner">
+            <button class="lightbox-close" id="lightbox-close">✕</button>
+        </div>
+    </div>
+
     <script src="projects.js"></script>
     <script src="main.js"></script>
+    <script src="concepts.js"></script>
 
 </body>
 

@@ -20,10 +20,10 @@ function openLightbox(content, caption) {
         cap.className = 'lightbox-caption';
         cap.textContent = caption;
         lightboxInner.appendChild(cap);
-        }
-lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        }
+    }
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
 
 function closeLightbox() {
     lightbox.classList.remove('open');
@@ -47,3 +47,27 @@ function initMediaLightbox(container) {
         });
     });
 }
+
+(function () {
+    const toggle = document.getElementById('concepts-toggle');
+    if (!toggle) return;
+    const showMore = document.getElementById('concepts-show-more');
+    let expanded = false;
+
+    function updateRows() {
+        const rows = document.querySelectorAll('.concept-row');
+        if (rows.length <= 6) { showMore.style.display = 'none'; return; }
+        showMore.style.display = '';
+        rows.forEach((row, i) => {
+            if (i >= 6) row.classList.toggle('expanded', expanded);
+        });
+        toggle.textContent = expanded ? 'Show less ↑' : 'Show more ↓';
+    }
+
+    toggle.addEventListener('click', () => { expanded = !expanded; updateRows(); });
+
+    const list = document.getElementById('concepts-list');
+    new MutationObserver(updateRows).observe(list, { childList: true });
+
+    document.addEventListener('DOMContentLoaded', updateRows);
+})();
